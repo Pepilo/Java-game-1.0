@@ -29,8 +29,8 @@ import javafx.util.Duration;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
+// import javafx.scene.media.Media;
+// import javafx.scene.media.MediaPlayer;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,7 +43,7 @@ import java.util.List;
 public class App extends Application {
 
     private static Scene scene;
-    private MediaPlayer mediaPlayer;
+    // private MediaPlayer mediaPlayer;
     private Rectangle MenuPrincipal;
     private VBox buttonBox;
     private Label labelStartClick;
@@ -127,10 +127,10 @@ public class App extends Application {
         StackPane.setAlignment(moneySymbolView, Pos.TOP_RIGHT);
         StackPane.setMargin(moneySymbolView, new Insets(40, 40, 10, 10));
 
-        String musicFile = "redneck.mp3";
-        Media sound = new Media(new File(musicFile).toURI().toString());
-        mediaPlayer = new MediaPlayer(sound);
-        mediaPlayer.play();
+        // String musicFile = "redneck.mp3";
+        // Media sound = new Media(new File(musicFile).toURI().toString());
+        // mediaPlayer = new MediaPlayer(sound);
+        // mediaPlayer.play();
 
         /*Implementation Meduses*/
         Meduse meduse1 = new Meduse(-300, 450);
