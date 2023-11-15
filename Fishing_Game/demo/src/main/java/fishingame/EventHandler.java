@@ -18,5 +18,9 @@ public class EventHandler {
             KeyCode keycode = event.getCode();
             app.handleKeyPressed(keycode);
         });
+        scene.setOnKeyReleased(event -> {
+            KeyCode keycode = event.getCode();
+            app.handleKeyReleased(keycode);
+        });
     }
 }
