@@ -37,20 +37,23 @@ public class App extends Application {
     private MediaPlayer mediaPlayer;
     private Rectangle MenuPrincipal;
     private VBox buttonBox;
+    private VBox buttonBoxShop;
     private Label labelStartClick;
     private Label moneyCount;
-    private ImageView moneySymbolView;
     private Player player;
     private EventHandler eventHandler;
     private StackPane stackPane;
     private double totalBackgroundHeight;
-    private int banque = 0;
+    protected static int banque = 0;
     private List<Fish> fishList = new ArrayList<>();
     private AnimationTimer timer;
     private boolean firstSpaceKeyPress = true;
     private boolean isMovingRight = false;
     private boolean isMovingLeft = false;
-    private Button ButtonShop;
+    private boolean isMovingUp = false;
+    private boolean isMovingDown = false;
+    private MediaPlayer collisionMediaPlayer;
+    private boolean isGameRunning = false;
 
     private AnimationTimer moveTimer = new AnimationTimer() {
         @Override
@@ -60,6 +63,12 @@ public class App extends Application {
             }
             if (isMovingLeft && player.getPositionX() > -495) {
                 player.setPositionX(player.getPositionX() - player.getSpeed());
+            }
+            if (isMovingUp && player.getPositionY() > 0) {
+                player.setPositionY(player.getPositionY() - player.getSpeed());
+            }
+            if (isMovingDown && player.getPositionY() < 5200) {
+                player.setPositionY(player.getPositionY() + player.getSpeed());
             }
         }
     };
@@ -102,19 +111,34 @@ public class App extends Application {
         stage.setTitle("Turbo Fishing Nitro+");
 
         /*Setting main menu*/
-        MenuPrincipal = new Rectangle(100, 100, 640, 360);
+        MenuPrincipal = new Rectangle(100, 100, 640, 460);
         ImagePattern pattern = new ImagePattern(new Image("tableau.png"));
         MenuPrincipal.setFill(pattern);
         buttonBox = new VBox(20);
         buttonBox.setAlignment(Pos.CENTER);
         Button ButtonStart = createButton("start.png");
-        Button ButtonExit = createButton("Exit.png");
-        ButtonShop = createButton("Shop.png");
+        Button ButtonShop = createButton("shop.png");
+        Button ButtonExit = createButton("exit.png");
+        
+
+
+        /*Setting shop menu*/
+        buttonBoxShop = new VBox(20);
+        buttonBoxShop.setAlignment(Pos.CENTER);
+        buttonBoxShop.setVisible(false);
+        Button ButtonExitShop = createButton("exit.png");
+        Button speedUpgradeButton = new Button("Upgrade Speed (Cost: 75 sousous)");
+        Button horizontalUpgradeButton = new Button("Horizontal upgrade (Cost: 200 sousous)");
+
+
+
         setupButtonInteraction(ButtonStart);
         setupButtonInteraction(ButtonExit);
         setupButtonInteraction(ButtonShop);
+        setupButtonInteraction(speedUpgradeButton);
+        setupButtonInteraction(horizontalUpgradeButton);
+        setupButtonInteraction(ButtonExitShop);
 
-        ButtonShop.setVisible(false);
 
         /*Setting player*/
         this.player = new Player(5);
@@ -129,12 +153,15 @@ public class App extends Application {
         StackPane.setMargin(labelStartClick, new Insets(110, 0, 10, 10));
 
         /*Money display*/
-        moneyCount = new Label("Pesos: " + banque);
+        moneyCount = new Label("Sousous: " + App.banque);
         moneyCount.setStyle("-fx-font-size: 30; -fx-text-fill: White; -fx-font-weight: bold;");
         moneyCount.setVisible(false);
         Image moneySymbol = new Image("sousou.png");
         ImageView moneySymbolView = new ImageView(moneySymbol);
         moneySymbolView.setVisible(false);
+    
+
+        Shop shop = new Shop(player, moneyCount);
 
 
         StackPane.setAlignment(labelStartClick, Pos.TOP_CENTER);
@@ -150,6 +177,10 @@ public class App extends Application {
         String musicFile = "Fishing_Game/demo/src/main/resources/redneck.mp3";
         Media sound = new Media(new File(musicFile).toURI().toString());
         mediaPlayer = new MediaPlayer(sound);
+
+        String collisionSoundFile = "Fishing_Game/demo/src/main/resources/Poisson_attrape.mp3";
+        Media collisionSound = new Media(new File(collisionSoundFile).toURI().toString());
+        collisionMediaPlayer = new MediaPlayer(collisionSound);
 
         /*Implementation Meduses*/
         for (int i = 0; i < 20; i++) {
@@ -178,13 +209,12 @@ public class App extends Application {
             fishList.add(thon);
         }
 
-        for (int i = 0; i < 5; i++) {
-            int randomX = (int) (Math.random() * 800 - 400);
-            int randomY = (int) (Math.random() * 5200 + 1500);
-            Sole sole = new Sole(randomX, randomY);
-            stackPane.getChildren().add(sole.sprite);
-            fishList.add(sole);
-        }
+        /*Implementation coffre et sol */
+        Coffre coffre = new Coffre();
+        stackPane.getChildren().add(coffre.sprite);
+        Sol SolFinal = new Sol(0, 5200);
+        stackPane.getChildren().add(SolFinal.sprite);
+        fishList.add(SolFinal);
 
         timer = new AnimationTimer() {
             @Override
@@ -203,6 +233,7 @@ public class App extends Application {
             moneySymbolView.setVisible(true);
             player.sprite.setVisible(true);
             mediaPlayer.play();
+            isGameRunning = true;
 
             Timeline timeline = new Timeline(
                     new KeyFrame(Duration.seconds(0.5), new KeyValue(labelStartClick.visibleProperty(), false)),
@@ -212,18 +243,34 @@ public class App extends Application {
             timeline.play();
         });
 
-        
-
         ButtonExit.setOnAction(event -> {
             stage.hide();
         });
 
-        // shopButton.setOnAction(event -> {
+        ButtonExitShop.setOnAction(event -> {
+            buttonBox.setVisible(true);
+            buttonBoxShop.setVisible(false);
+        });
 
-        // });
+        ButtonShop.setOnAction(event -> {
+            moneyCount.setVisible(true);
+            moneySymbolView.setVisible(true);
+            buttonBox.setVisible(false);
+            buttonBoxShop.setVisible(true);
+            
+        });
 
-        buttonBox.getChildren().addAll(ButtonStart, ButtonExit);
-        stackPane.getChildren().addAll(MenuPrincipal, buttonBox, labelStartClick, moneyCount, moneySymbolView, ButtonShop);
+        speedUpgradeButton.setOnAction(event -> {
+            shop.upgradePlayerSpeed();
+        }
+        );
+        horizontalUpgradeButton.setOnAction(event -> {
+            shop.upgradePlayerHorizontal();
+        });
+
+        buttonBox.getChildren().addAll(ButtonStart, ButtonShop, ButtonExit);
+        buttonBoxShop.getChildren().addAll(speedUpgradeButton, ButtonExitShop, horizontalUpgradeButton);
+        stackPane.getChildren().addAll(MenuPrincipal, buttonBox, buttonBoxShop, labelStartClick, moneyCount, moneySymbolView);
 
         stage.setScene(scene);
         stage.show();
@@ -244,20 +291,27 @@ public class App extends Application {
     public void handleKeyPressed(KeyCode keycode) {
         switch (keycode) {
             case ESCAPE:
+            if (isGameRunning) {
+                break;
+            }
                 MenuPrincipal.setVisible(true);
                 buttonBox.setVisible(true);
                 labelStartClick.toBack();
                 mediaPlayer.stop();
-                moneyCount.setVisible(false);
                 player.sprite.setVisible(false);
-                moneySymbolView.setVisible(false);
-                ButtonShop.setVisible(false);
+
                 break;
             case Q:
                 movePlayerLeft();
                 break;
             case D:
                 movePlayerRight();
+                break;
+            case Z:
+                movePlayerUp();
+                break;
+            case S:
+                movePlayerDown();
                 break;
             case SPACE:
                 if (firstSpaceKeyPress) {
@@ -285,9 +339,18 @@ public class App extends Application {
             case Q:
                 isMovingLeft = false;
                 break;
+            case Z:
+                isMovingUp = false;
+                break;
+            case S:
+                isMovingDown = false;
+                break;
         }
         // Arrêtez le mouvement uniquement si les deux touches sont relâchées
         if (!isMovingRight && !isMovingLeft) {
+            moveTimer.stop();
+        }
+        if (!isMovingUp && !isMovingDown) {
             moveTimer.stop();
         }
     }
@@ -300,6 +363,19 @@ public class App extends Application {
     private void movePlayerLeft() {
         isMovingLeft = true;
         moveTimer.start();
+    }
+    private void movePlayerUp() {
+        if (player.horizontal){
+        isMovingUp = true;
+        moveTimer.start();
+        }
+    }
+    
+    private void movePlayerDown() {
+        if (player.horizontal){
+        isMovingDown = true;
+        moveTimer.start();
+        }
     }
 
     public static void main(String[] args) {
@@ -328,26 +404,29 @@ public class App extends Application {
     }
 
     private void handleFishCollision(Fish fish) {
+        // Vérifiez si le lecteur multimédia pour le son de la collision est initialisé
+        if (collisionMediaPlayer != null) {
+            collisionMediaPlayer.stop(); // Arrête la lecture actuelle si elle est en cours
+        }
+
+        collisionMediaPlayer.play(); // Joue le son de la collision
+
+        // Reste du code pour la gestion de la collision
         banque += fish.getValue();
-        moneyCount.setText("Pesos: " + banque);
-
+        moneyCount.setText("Sousous: " + banque);
         stackPane.getChildren().remove(fish);
-
         restartGame();
+        isGameRunning = false;
     }
-
+    
     public void restartGame() {
-        
+
         player.setPositionX(16);
         player.setPositionY(0);
+        
         
         stackPane.setTranslateY(0);
         timer.stop();
         firstSpaceKeyPress = true;
-
-
-    
-        
-        
     }
 }

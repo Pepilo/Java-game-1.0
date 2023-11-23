@@ -3,7 +3,6 @@ package fishingame;
 import javafx.geometry.Bounds;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 
 public abstract class Fish {
 
@@ -12,7 +11,6 @@ public abstract class Fish {
     protected String filepath;
     protected int positionX;
     protected int positionY;
-    protected int speed;
     protected int value;
     protected int posDepart;
     protected double i = 0;
@@ -22,9 +20,6 @@ public abstract class Fish {
     }
     public int getPositionY(){
         return positionY;
-    }
-    public int getSpeed(){
-        return speed;
     }
     public int getValue() {
         return value;
