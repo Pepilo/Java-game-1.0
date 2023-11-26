@@ -15,26 +15,20 @@ public class Shop {
     }
 
     public void upgradePlayerSpeed() {
-        if (App.banque >= playerSpeedUpgradeCost) {
-            App.banque -= playerSpeedUpgradeCost;
-            moneyCount.setText("Sousous: " + App.banque);
-
-
+        if (ControlPanel.banque >= playerSpeedUpgradeCost) {
+            ControlPanel.banque -= playerSpeedUpgradeCost;
+            moneyCount.setText("Sousous: " + ControlPanel.banque);
             player.increaseSpeed();
             playerSpeedUpgradeCost *= 2; 
         }
     }
 
     public void upgradePlayerHorizontal() {
-        if (App.banque >= playerHorizontalUpgradeCost) {
-                App.banque -= playerHorizontalUpgradeCost;
-                moneyCount.setText("Sousous: " + App.banque);
-
-
+        if (ControlPanel.banque >= playerHorizontalUpgradeCost) {
+                ControlPanel.banque -= playerHorizontalUpgradeCost;
+                moneyCount.setText("Sousous: " + ControlPanel.banque);
                 player.horizontal = true;
                 playerSpeedUpgradeCost *= 2; 
         }
-        
-        
     }
 }

@@ -43,5 +43,4 @@ public class Coffre {
     public Bounds getBounds() {
         return sprite.getBoundsInParent();
     }
-
 }

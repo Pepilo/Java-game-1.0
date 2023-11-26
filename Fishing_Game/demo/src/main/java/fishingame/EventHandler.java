@@ -5,22 +5,22 @@ import javafx.scene.input.KeyCode;
 
 public class EventHandler {
 
-    protected App app;
+    protected ControlPanel controlPanel;
     protected Player player;
 
-    public EventHandler(App app, Player player){
-        this.app = app;
+    public EventHandler(ControlPanel controlPanel, Player player){
+        this.controlPanel = controlPanel;
         this.player = player;
     }
 
     public void pollEvents(Scene scene){
         scene.setOnKeyPressed(event -> {
             KeyCode keycode = event.getCode();
-            app.handleKeyPressed(keycode);
+            controlPanel.handleKeyPressed(keycode);
         });
         scene.setOnKeyReleased(event -> {
             KeyCode keycode = event.getCode();
-            app.handleKeyReleased(keycode);
+            controlPanel.handleKeyReleased(keycode);
         });
     }
 }
