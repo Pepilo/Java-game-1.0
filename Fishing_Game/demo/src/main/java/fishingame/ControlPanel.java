@@ -1,8 +1,5 @@
 package fishingame;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -10,21 +7,24 @@ import javafx.animation.Timeline;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.Scene;
+import java.io.File;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
+import javafx.scene.Scene;
 import javafx.scene.shape.Rectangle;
-import javafx.util.Duration;
 import javafx.stage.Stage;
+import java.util.ArrayList;
+import javafx.util.Duration;
+import java.util.List;
 
 public class ControlPanel {
 
@@ -59,6 +59,7 @@ public class ControlPanel {
     private double totalBackgroundHeight;
     private Shop shop;
 
+    /*Constructor*/
     public ControlPanel(Stage stage){
         this.stage = stage;
     }
@@ -134,8 +135,6 @@ public class ControlPanel {
         this.buttonBoxShop = new VBox(20);
         buttonBoxShop.setAlignment(Pos.CENTER);
         buttonBoxShop.setVisible(false);
-        // StackPane.setAlignment(buttonShop, Pos.TOP_CENTER);
-        // StackPane.setMargin(buttonShop, new Insets(110, 0, 10, 10));
     }
 
     /*Start button Logic*/

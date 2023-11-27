@@ -15,6 +15,7 @@ public abstract class Fish {
     protected int posDepart;
     protected double i = 0;
 
+    /*Getter/Setter*/
     public int getPositionX(){
         return positionX;
     }
@@ -33,6 +34,7 @@ public abstract class Fish {
         this.positionY = positionY;
     }
 
+    /*Constructor*/
     public Fish(String filepath, int positionX, int positionY, int value) {
         spriteSheet = new Image(filepath);
         sprite = new ImageView(spriteSheet);
@@ -43,12 +45,15 @@ public abstract class Fish {
         sprite.setUserData(this);
     }
 
+    /*Collision*/
     public Bounds getBounds() {
         return sprite.getBoundsInParent();
     }
     
+    /*Default swimming method */
     public abstract void swimming();
 
+    /*Updated each frame*/
     public void update(EventHandler eventHandler) {
         swimming();
     }

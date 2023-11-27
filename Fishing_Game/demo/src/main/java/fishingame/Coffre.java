@@ -13,6 +13,7 @@ public class Coffre {
     protected int positionY;
     protected int value;
 
+    /*Getter/Setter*/
     public int getPositionX(){
         return positionX;
     }
@@ -31,6 +32,7 @@ public class Coffre {
         this.positionY = positionY;
     }
 
+    /*Constructor*/
     public Coffre() {
         spriteSheet = new Image("coffre.png");
         sprite = new ImageView(spriteSheet);
@@ -38,9 +40,5 @@ public class Coffre {
         sprite.setTranslateY(5100);
         this.value = 100;
         sprite.setUserData(this);
-    }
-
-    public Bounds getBounds() {
-        return sprite.getBoundsInParent();
     }
 }

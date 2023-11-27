@@ -7,10 +7,8 @@ import javafx.stage.Stage;
 
 public class App extends Application {
 
-    /*Attribut*/
     private ControlPanel controlPanel;   
 
-    /*Start Method*/
     @Override
     public void start(Stage stage) throws IOException {
 
@@ -23,7 +21,7 @@ public class App extends Application {
         controlPanel.fishSetting();
         controlPanel.shopSetting();
 
-        /*Buttons logic*/
+        /*Exit buttons logic*/
         controlPanel.exitLogic();
         controlPanel.shopExitLogic();
 
@@ -33,11 +31,13 @@ public class App extends Application {
         controlPanel.mainSong();
         controlPanel.fishingAudio();
 
+        /*Other buttons logic*/
         controlPanel.startLogic();
         controlPanel.shopButtonLogic();
         controlPanel.shopSpeedLogic();
         controlPanel.shopHorizontalLogic();
 
+        /*Init logic*/
         controlPanel.init();
     }
 

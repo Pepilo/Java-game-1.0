@@ -13,6 +13,7 @@ public class Player {
     protected int speed;
     protected boolean horizontal = false;
 
+    /*Getter/Setter*/
     public int getPositionX(){
         return positionX;
     }
@@ -32,6 +33,7 @@ public class Player {
         this.positionY = positionY;
     }
 
+    /*Constructor*/
     public Player(int speed) {
         spriteSheet = new Image("hamecon.png");
         sprite = new ImageView(spriteSheet);
@@ -40,16 +42,17 @@ public class Player {
         sprite.setTranslateY(180);
         this.speed = speed;
     }
-
     
-
-    public void update(EventHandler eventHandler){
-    }
-    
+    /*Collision*/
     public Bounds getBounds() {
         return sprite.getBoundsInParent();
     }
+
+    /*Speed upgrade method*/
     public void increaseSpeed() {
         this.speed = speed +10;
+    }
+
+    public void update(EventHandler eventHandler){
     }
 }

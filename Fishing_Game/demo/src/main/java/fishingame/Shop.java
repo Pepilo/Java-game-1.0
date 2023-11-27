@@ -8,12 +8,13 @@ public class Shop {
     protected int playerSpeedUpgradeCost = 75;
     protected int playerHorizontalUpgradeCost = 200;
 
-
+    /*Constructor*/
     public Shop(Player player, Label moneyCount) {
         this.player = player;
         this.moneyCount = moneyCount;
     }
 
+    /*Increase vertical speed upgrade*/
     public void upgradePlayerSpeed() {
         if (ControlPanel.banque >= playerSpeedUpgradeCost) {
             ControlPanel.banque -= playerSpeedUpgradeCost;
@@ -23,6 +24,7 @@ public class Shop {
         }
     }
 
+    /*Increase horizontal speed upgrade*/
     public void upgradePlayerHorizontal() {
         if (ControlPanel.banque >= playerHorizontalUpgradeCost) {
                 ControlPanel.banque -= playerHorizontalUpgradeCost;
